@@ -1,45 +1,51 @@
-{% set name = "pymeeus" %}
-{% set version = "0.5.11" %}
-
+{% set name = "PyMeeus" %}
+{% set version = "0.5.12" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/PyMeeus-{{ version }}.tar.gz
-  sha256: bb9d670818d8b0594317b48a7dadea02a0594e5344263bf2054e1a011c8fed55
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 548f7186bd8b96cbc069cf649a8e8e377dce49ac74486709849fe63a99cad684
 
 build:
-  skip: True    # [py<36]
-  number: 1
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv --no-deps
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python
     - pip
+    - python
+    - wheel
+    - setuptools
   run:
     - python
 
 test:
+  source_files:
+    - tests
   imports:
     - pymeeus
   commands:
     - pip check
+    - pytest -v tests
   requires:
-    # fix for bug in conda build which will use 3.10
-    - python <3.10
     - pip
+    # https://github.com/architest/pymeeus/issues/24
+    - pytest <=7.2
 
 about:
   home: https://github.com/architest/pymeeus
   summary: Python implementation of Jean Meeus astronomical routines
   license: LGPL-3.0-or-later
+  license_family: GPL
   license_file: COPYING.LESSER
+  description: |
+    PyMeeus is a Python implementation of the astronomical algorithms described in the
+    classical book 'Astronomical Algorithms, 2nd Edition, Willmann-Bell Inc. (1998)' by Jean Meeus.
   dev_url: https://github.com/architest/pymeeus
-  doc_url: https://pymeeus.readthedocs.io/en/latest/
+  doc_url: https://pymeeus.readthedocs.io
 
 extra:
   recipe-maintainers:
