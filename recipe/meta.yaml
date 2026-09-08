@@ -10,7 +10,7 @@ source:
   sha256: 548f7186bd8b96cbc069cf649a8e8e377dce49ac74486709849fe63a99cad684
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -33,7 +33,7 @@ test:
   requires:
     - pip
     # https://github.com/architest/pymeeus/issues/24
-    - pytest <=7.2
+    - pytest <8
 
 about:
   home: https://github.com/architest/pymeeus
